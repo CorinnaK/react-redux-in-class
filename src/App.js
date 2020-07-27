@@ -1,18 +1,7 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Hello from './Hello';
-import HelloYourName from './HelloYourName'
-import HelloStudents from './HelloStudents'
+import React from "react";
+
 function App() {
-  return (
-    <div className="App">
-      <Hello/>
-      <HelloYourName name="Shivani" favFood="pizza"/>
-      <HelloYourName name="Ashutosh" favFood="noodles"/>
-      <HelloStudents />
-    </div>
-  );
+  return <div className="App"></div>;
 }
 
 export default App;
