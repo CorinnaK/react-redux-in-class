@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import { addNewToDo, removeToDo } from "./actions/todos";
+import { addNewToDo, removeToDo } from "../actions/todos";
 import { connect } from "react-redux";
+import ToDo from "./ToDo";
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -12,15 +14,12 @@ class App extends Component {
   addToDo = (event) => {
     event.preventDefault();
     this.props.dispatch(addNewToDo(this.state.newToDo));
-    this.setState({ newToDo: "" });
+    // this.setState({ newToDo: "" });
+    this.updateItem("newToDo", "");
   };
 
   updateItem(key, value) {
     this.setState({ [key]: value });
-  }
-
-  removeToDo(id) {
-    this.props.dispatch(removeToDo(id));
   }
 
   render() {
@@ -42,14 +41,11 @@ class App extends Component {
         <h2>Current To-Dos:</h2>
         <ul>
           {this.props.toDos.map((toDo) => (
-            <li
+            <ToDo
               key={toDo.uniqueId}
-              onClick={() => {
-                this.removeToDo(toDo.uniqueId);
-              }}
-            >
-              {toDo.value}
-            </li>
+              uniqueId={toDo.uniqueId}
+              text={toDo.value}
+            />
           ))}
         </ul>
       </>
