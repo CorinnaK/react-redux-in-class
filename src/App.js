@@ -1,27 +1,18 @@
 import React, { Component } from "react";
-import { v4 as uuidv4 } from "uuid";
-
+import { addNewToDo, removeToDo } from "./actions/todos";
+import { connect } from "react-redux";
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       newToDo: "",
-      toDos: [],
     };
   }
   addToDo = (event) => {
     event.preventDefault();
-    const newTask = {
-      uniqueId: uuidv4(),
-      value: this.state.newToDo,
-    };
-    const currentToDoList = [...this.state.toDos];
-    currentToDoList.push(newTask);
-    this.setState({
-      toDos: currentToDoList,
-      newToDo: "",
-    });
+    this.props.dispatch(addNewToDo(this.state.newToDo));
+    this.setState({ newToDo: "" });
   };
 
   updateItem(key, value) {
@@ -29,12 +20,7 @@ class App extends Component {
   }
 
   removeToDo(id) {
-    const currentToDoList = [...this.state.toDos];
-
-    const updatedToDoList = currentToDoList.filter(
-      (toDo) => toDo.uniqueId !== id
-    );
-    this.setState({ toDos: updatedToDoList });
+    this.props.dispatch(removeToDo(id));
   }
 
   render() {
@@ -55,7 +41,7 @@ class App extends Component {
         </form>
         <h2>Current To-Dos:</h2>
         <ul>
-          {this.state.toDos.map((toDo) => (
+          {this.props.toDos.map((toDo) => (
             <li
               key={toDo.uniqueId}
               onClick={() => {
@@ -70,5 +56,8 @@ class App extends Component {
     );
   }
 }
+export default connect((state) => {
+  return { toDos: state };
+})(App);
 
-export default App;
+// export default App;
